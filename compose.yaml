@@ -12,7 +12,7 @@ services:
       - ./:/app
     environment:
       APP_ENV: dev
-      DATABASE_URL: "mysql://app:root@database:3306/app?serverVersion=8.0&charset=utf8"
+      DATABASE_URL: "mysql://app:root@database:3306/zizou?serverVersion=8.0&charset=utf8"
     command: php -S 0.0.0.0:8000 -t public
     ports:
       - "8000:8000"
@@ -20,7 +20,7 @@ services:
     image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-zizou}
       MYSQL_USER: ${MYSQL_USER:-app}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-root}
     healthcheck:
