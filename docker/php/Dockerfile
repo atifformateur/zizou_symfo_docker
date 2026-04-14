@@ -11,5 +11,5 @@ RUN apt-get update \
         pdo_mysql \
         zip \
     && rm -rf /var/lib/apt/lists/*
-
+COPY --from=composer:latest /usr/bin/composer/ /usr/bin/composer
 WORKDIR /app
