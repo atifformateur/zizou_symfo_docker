@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Player;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,6 +16,7 @@ class PlayerType extends AbstractType
             ->add('nom')
             ->add('username')
             ->add('number')
+            ->add('submit', SubmitType::class)
         ;
     }
 

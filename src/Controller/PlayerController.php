@@ -27,9 +27,16 @@ final class PlayerController extends AbstractController
         $newPlayer = new Player();
 
         $formPlayer = $this->createForm(PlayerType::class, $newPlayer);
-        // $form->handleRequest($request);
+        $formPlayer->handleRequest($request);
+
+        if ($formPlayer->isSubmitted() && $formPlayer->isValid()) {
+
+            $em->persist($newPlayer);
+            $em->flush();
+
+            return $this->redirectToRoute('player_index');
+        }
         
-       
         return $this->render('player/new.html.twig', [
             'formPlayer' => $formPlayer
         ]);
