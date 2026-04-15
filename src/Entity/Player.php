@@ -22,8 +22,6 @@ class Player
     #[ORM\Column(unique: true)]
     private ?int $number = null;
 
-    
-
     public function getId(): ?int
     {
         return $this->id;

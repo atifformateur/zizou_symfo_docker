@@ -21,8 +21,10 @@ final class TotoController extends AbstractController
             ->setNumber(10)
             ->setUsername('totoname');
        
-        dd($newPlayer);
-        return $this->render('/toto/first.html.twig');
+
+        return $this->render('/toto/first.html.twig', [
+            'player' => $newPlayer
+        ]);
     }
 
     #[Route('/second', name:'app_second', methods:['GET'])]
