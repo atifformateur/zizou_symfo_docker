@@ -24,7 +24,7 @@ final class PlayerController extends AbstractController
     #[Route('/player/new', name: 'player_new', methods:['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em)
     {
-        $newPlayer = new Player();
+        $newPlayer = new Player(); 
 
         $formPlayer = $this->createForm(PlayerType::class, $newPlayer);
         $formPlayer->handleRequest($request);
