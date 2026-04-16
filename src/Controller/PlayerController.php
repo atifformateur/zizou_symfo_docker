@@ -11,18 +11,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/player')]
 final class PlayerController extends AbstractController
 {
     //endpoint affiche tous les players
-    #[Route('/player', name:'player_index', methods: ['GET'])]
-    public function index(): Response
+    #[Route('/', name:'player_index', methods: ['GET'])]
+    public function index(PlayerRepository $playerRepository): Response
     {
-        dd('all players');
-        return $this->render('player/index.html.twig', []);
+        return $this->render('player/index.html.twig', [
+            'players' => $playerRepository->findAll()
+        ]);
+    }
+
+    #[Route('/show/{id}')]
+    public function show(Player $player){
+        
+        return $this->render('player/show.html.twig', [
+            'player' => $player
+        ]);
     }
 
     //endpoint add d'un player
-    #[Route('/player/new', name: 'player_new', methods:['GET', 'POST'])]
+    #[Route('/new', name: 'player_new', methods:['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em)
     {
         $newPlayer = new Player(); 
@@ -43,8 +53,12 @@ final class PlayerController extends AbstractController
         ]);
     }
 
-    #[Route('/player/update/{id}', name: 'player_update', methods: ['GET', 'POST'])]
-    public function update(PlayerRepository $playerRepository, Player $player, Request $request, EntityManagerInterface $em){
+    #[Route('/update/{id}', name: 'player_update', methods: ['GET', 'POST'])]
+    public function update(
+            Player $player, 
+            Request $request, 
+            EntityManagerInterface $em
+        ){
         //set les modifs
         $formPlayer = $this->createForm(PlayerType::class, $player);
         $formPlayer->handleRequest($request);

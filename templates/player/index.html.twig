@@ -1,1 +1,7 @@
-
+<h1>page players</h1>
+{% for player in players %}
+    <article>
+        <h2>{{player.nom}} {{player.username}}</h2>
+        <span>{{player.number}}</span>
+    </article>
+{% endfor %}
