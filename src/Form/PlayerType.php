@@ -56,7 +56,7 @@ class PlayerType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'créer le joueur',
+                'label' => 'Envoyer',
                 'attr' => [
                     'class' => 'btnForm'
                 ]

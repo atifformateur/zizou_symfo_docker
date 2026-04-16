@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Player;
 use App\Form\PlayerType;
+use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,5 +43,23 @@ final class PlayerController extends AbstractController
         ]);
     }
 
-    
+    #[Route('/player/update/{id}', name: 'player_update', methods: ['GET', 'POST'])]
+    public function update(PlayerRepository $playerRepository, Player $player, Request $request, EntityManagerInterface $em){
+        //set les modifs
+        $formPlayer = $this->createForm(PlayerType::class, $player);
+        $formPlayer->handleRequest($request);
+
+        if($formPlayer->isSubmitted() && $formPlayer->isValid()){
+            $em->persist($player);
+            $em->flush();
+
+            return $this->redirectToRoute('player_index');
+        }
+        
+        //flush l'instance 
+
+        return $this->render('/player/update.html.twig', [
+            'formPlayer' => $formPlayer
+        ]);
+    }
 }
