@@ -23,7 +23,7 @@ final class PlayerController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{id}')]
+    #[Route('/show/{id}', name: 'player_show', methods: ['GET'])]
     public function show(Player $player){
         
         return $this->render('player/show.html.twig', [

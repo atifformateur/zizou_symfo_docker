@@ -3,5 +3,9 @@
     <article>
         <h2>{{player.nom}} {{player.username}}</h2>
         <span>{{player.number}}</span>
+        <a href="{{ path('player_show', { id : player.id }) }}">voir {{player.nom}}</a>
+        <a href="{{ path('player_update', { id : player.id }) }}">modifier {{player.nom}}</a>
     </article>
 {% endfor %}
+
+<a href="{{ path('player_new') }}">créer un player</a> 
