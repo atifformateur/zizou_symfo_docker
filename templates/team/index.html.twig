@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+{% for team in teams %}
+    <span> {{team.name}} </span>
+
+{% endfor %}
+
+{% endblock %}

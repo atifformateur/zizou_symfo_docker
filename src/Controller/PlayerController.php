@@ -24,8 +24,8 @@ final class PlayerController extends AbstractController
     }
 
     #[Route('/show/{id}', name: 'player_show', methods: ['GET'])]
-    public function show(Player $player){
-        
+    public function show(Player $player): Response
+    {
         return $this->render('player/show.html.twig', [
             'player' => $player
         ]);
@@ -69,11 +69,19 @@ final class PlayerController extends AbstractController
 
             return $this->redirectToRoute('player_index');
         }
-        
-        //flush l'instance 
-
         return $this->render('/player/update.html.twig', [
             'formPlayer' => $formPlayer
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'player_delete', methods: ['POST'])]
+    public function delete(Player $player, EntityManagerInterface $em, Request $request)
+    {
+        if ($this->isCsrfTokenValid('delete' . $player->getId(), $request->request->get('_token'))) {
+            $em->remove($player);
+            $em->flush();
+
+            return $this->redirectToRoute('player_index');
+        }
     }
 }
