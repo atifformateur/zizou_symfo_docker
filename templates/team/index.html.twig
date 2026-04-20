@@ -3,8 +3,11 @@
 {% block body %}
 
 {% for team in teams %}
-    <span> {{team.name}} </span>
-    {% include "/team/form/_form.html.twig" %} 
+    <div>
+        <span> {{team.name}} </span>
+        <a href={{path('team_show', {id : team.id})}}>voir</a>
+        {% include "/team/form/_form.html.twig" %} 
+    </div>
 {% endfor %}
 
 {% endblock %}

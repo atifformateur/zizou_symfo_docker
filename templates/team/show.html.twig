@@ -1,3 +1,9 @@
 {{team.name}}
 
+<pre>
+    {% for player in team.players %}
+        {{ dump(player) }}
+    {% endfor %}
+</pre>
+
 {% include "/team/form/_form.html.twig" %} 

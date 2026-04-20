@@ -1,10 +1,12 @@
 <article>
     <span>{{player.id}} {{player.nom}} {{player.username}} {{player.number}}</span>
-
+    <span>il joue dans l'equipe : {{player.team.name}}</span>
 
     <form action={{path('player_delete', { id : player.id })}} method="POST">
         <input type="hidden" name="_token" value={{ csrf_token('delete' ~ player.id)}}>
         <button type="submit">supprimer</button>
     </form>
-
+    <pre>
+        {{ dump(player) }}
+    </pre>
 </article>
