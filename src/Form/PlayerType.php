@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Player;
+use App\Entity\Team;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -54,6 +56,12 @@ class PlayerType extends AbstractType
                     new NotBlank(message: 'numéro obligatoire'),
                     new Positive(message: 'le numero doit etre positive')
                 ]
+            ])
+            ->add('team', EntityType::class, [
+                'class' => Team::class,
+                'choice_label' => 'name',
+                'placeholder' => "pas d'équipe",
+                "required" => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',
