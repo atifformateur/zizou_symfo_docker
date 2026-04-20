@@ -22,6 +22,9 @@ class Player
     #[ORM\Column(unique: true)]
     private ?int $number = null;
 
+    #[ORM\ManyToOne(inversedBy: 'players')]
+    private ?Team $team = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Player
     public function setNumber(int $number): static
     {
         $this->number = $number;
+
+        return $this;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function setTeam(?Team $team): static
+    {
+        $this->team = $team;
 
         return $this;
     }

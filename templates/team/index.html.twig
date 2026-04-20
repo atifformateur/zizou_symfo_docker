@@ -1,12 +1,10 @@
 {% extends 'base.html.twig' %}
 
-
-
 {% block body %}
 
 {% for team in teams %}
     <span> {{team.name}} </span>
-
+    {% include "/team/form/_form.html.twig" %} 
 {% endfor %}
 
 {% endblock %}
