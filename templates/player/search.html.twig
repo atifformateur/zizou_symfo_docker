@@ -13,6 +13,7 @@
         const q = input.value;
         
         const response = await fetch(`/player/async/search?q=${q}`);
+        
         const players = await response.json();
 
         results.innerHTML = players.map(p => `

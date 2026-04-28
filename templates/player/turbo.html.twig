@@ -1,0 +1,10 @@
+<form action="{{path('player_turbo')}}" method="GET">
+    <input type="text" name="q" value="{{q}}" placeholder="recherche...">
+    <button type="submit">Envoyer</button>
+</form>
+
+<turbo-frame id="players-list">
+    {% for player in players %}
+        <p>{{player.nom}} - {{ player.username}} - {{ player.number }}</p>
+    {% endfor %}
+</turbo-frame>

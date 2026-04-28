@@ -122,4 +122,18 @@ final class PlayerController extends AbstractController
 
         return $this->json($data);
     }
+
+    //installation de uxturbo composer require symfony/ux-turbo
+    #[Route('/search/turbo', name: "player_turbo", methods: ['GET'])]
+    public function searchTurbo(Request $request, PlayerRepository $playerRepository): Response
+    {
+        $q = $request->query->get('q');
+
+        $players = $q ? $playerRepository->search($q) : $playerRepository->findAll();
+
+        return $this->render('player/turbo.html.twig', [
+            'q' => $q,
+            'players' => $players
+        ]);
+    }
 }
