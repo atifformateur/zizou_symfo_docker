@@ -6,7 +6,9 @@ use App\Entity\Player;
 use App\Form\PlayerType;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Func;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,10 +18,22 @@ final class PlayerController extends AbstractController
 {
     //endpoint affiche tous les players
     #[Route('/', name:'player_index', methods: ['GET'])]
-    public function index(PlayerRepository $playerRepository): Response
+    public function index(PlayerRepository $playerRepository, Request $request): Response
     {
+        //get du parametre 'q' -> si pas de q on remplace par une string vide
+        $q = $request->query->get('q', '');
+        //on verifie si q est remplis
+        if($q) {
+            //si il est remplis on fait appel a notre methode search pour get les elements correspondants
+            $players = $playerRepository->search($q);
+        } else {
+            //sinon on recupere tous les elements players
+            $players = $playerRepository->findAll();
+        }
+
         return $this->render('player/index.html.twig', [
-            'players' => $playerRepository->findAll()
+            'players' => $players,
+            'q' => $q
         ]);
     }
 
@@ -83,5 +97,29 @@ final class PlayerController extends AbstractController
 
             return $this->redirectToRoute('player_index');
         }
+    }
+
+    #[Route('/async', name: 'player_async_search', methods: ['GET'])]
+    public function async(): Response
+    {
+        return $this->render('player/search.html.twig');
+    }
+
+    #[Route('/async/search', name: 'player_async', methods: ['GET'])]
+    public function asyncSearch(Request $request, PlayerRepository $playerRepository, ): JsonResponse
+    {
+        
+        $q = $request->query->get('q', '');
+
+        $players = $q ? $playerRepository->search($q) : $playerRepository->findAll();
+
+        $data = array_map(fn($p) => [
+            'id' => $p->getId(),
+            'nom' => $p->getNom(),
+            'username' => $p->getUsername(),
+            'number' => $p->getNumber(),
+        ], $players);
+
+        return $this->json($data);
     }
 }

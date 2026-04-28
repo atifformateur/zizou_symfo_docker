@@ -18,6 +18,8 @@ final class TeamController extends AbstractController
     #[Route('/show/{id}', name: "team_show", methods: ['GET'])]
     public function show(Team $team)
     {
+
+
         return $this->render('/team/show.html.twig', [
             'team' => $team
         ]);
@@ -81,14 +83,14 @@ final class TeamController extends AbstractController
     }
 
     #[Route('/', name:'team_index', methods:['GET'])]
-    public function index(TeamRepository $teamRepo)
+    public function index(TeamRepository $teamRepository)
     {
-        // dd('test index');
-        $teams = $teamRepo->findAll();
-        // dd($teams);
+        
+       $teams = $teamRepository->findAllTeams();
 
-        return $this->render('team/index.html.twig', [
-            'teams' => $teams
-        ]);
+
+       return $this->render('team/index.html.twig', [
+        'teams' => $teams
+       ]);
     }
 }

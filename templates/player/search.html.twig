@@ -1,0 +1,22 @@
+<input type="text" id="search" placeholder="rechercher...">
+
+<div id="results">
+    {# id de destination pour les resultats #}
+</div>
+
+<script>
+    const input = document.getElementById('search');
+    const results = document.getElementById('results');
+
+    input.addEventListener('input', async()=> {
+        
+        const q = input.value;
+        
+        const response = await fetch(`/player/async/search?q=${q}`);
+        const players = await response.json();
+
+        results.innerHTML = players.map(p => `
+            <p>${p.nom} - ${p.username} - ${p.number}</p>
+        `).join('');
+    })
+</script>

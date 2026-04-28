@@ -16,6 +16,26 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
+    public function findAllTeams(){
+        $this->createQueryBuilder('t');
+    }
+
+    public function search(string $query): array
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('p')
+            ->where('p.nom LIKE :nom')
+            ->orWhere('p.username LIKE :username')
+            ->orWhere('p.number = :number')
+            ->setParameter('nom', '%' . $query . '%')
+            ->setParameter('username', '%' . $query . '%')
+            ->setParameter('number', is_numeric($query) ? (int)$query : -1)
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
+
     //    /**
     //     * @return Player[] Returns an array of Player objects
     //     */

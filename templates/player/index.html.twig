@@ -1,4 +1,10 @@
 <h1>page players</h1>
+
+<form action="{{path('player_index')}}" method="GET">
+    <input type="text" name="q" value="{{q}}" placeholder="recherche...">
+    <button type="submit">rechercher</button>
+</form>
+
 {% for player in players %}
     <article>
         <h2>{{player.nom}} {{player.username}}</h2>

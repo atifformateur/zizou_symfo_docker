@@ -16,28 +16,50 @@ class TeamRepository extends ServiceEntityRepository
         parent::__construct($registry, Team::class);
     }
 
-    //    /**
-    //     * @return Team[] Returns an array of Team objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllTeams() :array
+    {
+        $qb = $this->createQueryBuilder('team')
+            ->select('team')
+            ->getQuery()
+            ->getResult();
+            
+       return $qb;
+    }
 
-    //    public function findOneBySomeField($value): ?Team
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findTeamById(int $id): ?Team
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $query;
+    } 
+
+    public function findAllTeamsDesc()
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t')
+            ->orderBy('t.name', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
+
+    public function findTeamsByLetterAndLenght(string $letter, int $length)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.name LIKE :letter')
+            ->andWhere('LENGTH(t.name) > :length')
+            ->setParameter('length', $length)
+            ->setParameter('letter', $letter, '%')
+            ->getQuery()
+            ->getResult();
+    }
+
 }
+
